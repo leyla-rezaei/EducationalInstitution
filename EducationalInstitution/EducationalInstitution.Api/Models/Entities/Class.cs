@@ -1,5 +1,4 @@
-﻿using EducationalInstitution.Api.Enum;
-using EducationalInstitution.Api.Models.Common;
+﻿using EducationalInstitution.Api.Models.Common;
 
 namespace EducationalInstitution.Api.Models.Entities
 {

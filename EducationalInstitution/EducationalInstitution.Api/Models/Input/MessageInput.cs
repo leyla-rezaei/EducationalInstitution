@@ -1,5 +1,6 @@
 ﻿using EducationalInstitution.Api.Enum;
 using EducationalInstitution.Api.Models.Entities;
+using EducationalInstitution.Api.Validations;
 
 namespace EducationalInstitution.Api.Models.Input
 {

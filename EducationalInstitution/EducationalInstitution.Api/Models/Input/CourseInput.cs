@@ -9,7 +9,9 @@ namespace EducationalInstitution.Api.Models.Input
         public string Title { get; set; }
         public Department Department { get; set; }
         public CheckStatus CheckStatus { get; set; }
+        [Range(0, double.MaxValue)]
         public double Tuition { get; set; }
+        [Range(0, double.MaxValue)]
         public double Score { get; set; }
         public ExamResult ExamResult { get; set; }
         public string ExamEntranceCard { get; set; }
