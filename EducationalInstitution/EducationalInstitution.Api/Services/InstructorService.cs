@@ -43,11 +43,14 @@ namespace EducationalInstitution.Api.Services
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
 
-            var resultExist = Get<Class>()
+            var resultExistClass = Get<Class>()
                .Where(x => x.Id == id)
                 .Any();
+            var resultExistMessage = Get<Message>()
+             .Where(x => x.Id == id)
+              .Any();
 
-            if (resultExist) return ResponseStatus.UnknownError;
+            if (resultExistClass|| resultExistMessage) return ResponseStatus.UnknownError;
 
             return Delete(id);
         }

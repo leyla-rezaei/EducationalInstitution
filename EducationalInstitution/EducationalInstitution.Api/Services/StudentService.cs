@@ -56,7 +56,11 @@ namespace EducationalInstitution.Api.Services
                .Where(x => x.Id == id)
                 .Any();
 
-            if (resultExistRegistrationInvoice || resultExistCourseStudent|| resultExistClass)
+            var resultExistMessage = Get<Message>()
+              .Where(x => x.Id == id)
+               .Any();
+
+            if (resultExistRegistrationInvoice || resultExistCourseStudent|| resultExistClass||resultExistMessage)
                 return ResponseStatus.UnknownError;
 
             return Delete(id);

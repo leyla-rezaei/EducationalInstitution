@@ -57,7 +57,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Course", b =>
@@ -111,7 +111,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("PrerequisiteId");
 
-                    b.ToTable("Course");
+                    b.ToTable("Course", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.CourseStudent", b =>
@@ -143,7 +143,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("CourseStudent");
+                    b.ToTable("CourseStudent", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.InstitutionInformation", b =>
@@ -169,8 +169,9 @@ namespace EducationalInstitution.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("ImageLogo")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ImageLogoAddressUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -192,7 +193,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InstitutionInformations");
+                    b.ToTable("InstitutionInformations", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Message", b =>
@@ -242,7 +243,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.MiscellaneousExpense", b =>
@@ -277,7 +278,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MiscellaneousExpenses");
+                    b.ToTable("MiscellaneousExpenses", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.PaymentOfSalary", b =>
@@ -313,7 +314,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PaymentOfSalarys");
+                    b.ToTable("PaymentOfSalarys", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Prerequisite", b =>
@@ -335,7 +336,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prerequisite");
+                    b.ToTable("Prerequisite", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.RegistrationInvoice", b =>
@@ -371,8 +372,8 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalNumberCourses")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("TotalNumberCourses")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalTuition")
                         .HasColumnType("decimal(18,2)");
@@ -389,7 +390,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("RegistrationInvoice");
+                    b.ToTable("RegistrationInvoice", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Schedule", b =>
@@ -432,7 +433,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Schedule");
+                    b.ToTable("Schedule", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.ScheduleCourse", b =>
@@ -464,7 +465,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("ScheduleCourse");
+                    b.ToTable("ScheduleCourse", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.SiteAccessControl", b =>
@@ -516,7 +517,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SiteAccessControls");
+                    b.ToTable("SiteAccessControls", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.TotalBill", b =>
@@ -552,7 +553,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasIndex("RegistrationInvoiceId");
 
-                    b.ToTable("TotalBills");
+                    b.ToTable("TotalBills", (string)null);
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.User", b =>
@@ -625,7 +626,7 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
