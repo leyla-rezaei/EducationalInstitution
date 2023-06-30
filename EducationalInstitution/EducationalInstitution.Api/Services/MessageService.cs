@@ -44,13 +44,6 @@ namespace EducationalInstitution.Api.Services
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
 
-            var resultExistUser = Get<User>()
-             .Where(x => x.Id == id)
-              .Any();
-
-            if (resultExistUser)
-                return ResponseStatus.UnknownError;
-
             return Delete(id);
         }
     }

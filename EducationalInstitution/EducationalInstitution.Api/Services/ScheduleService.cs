@@ -45,7 +45,7 @@ namespace EducationalInstitution.Api.Services
 
 
             var resultExist = Get<ScheduleCourse>()
-              .Where(x => x.Id == id)
+              .Where(x => x.ScheduleId== id)
                .Any();
 
             if (resultExist) return ResponseStatus.UnknownError;

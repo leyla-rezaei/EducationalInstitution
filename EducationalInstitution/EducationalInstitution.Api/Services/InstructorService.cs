@@ -44,10 +44,10 @@ namespace EducationalInstitution.Api.Services
             if (result == null) return ResponseStatus.NotFound;
 
             var resultExistClass = Get<Class>()
-               .Where(x => x.Id == id)
+               .Where(x => x.InstructorId == id)
                 .Any();
             var resultExistMessage = Get<Message>()
-             .Where(x => x.Id == id)
+             .Where(x => x.UserId== id)
               .Any();
 
             if (resultExistClass|| resultExistMessage) return ResponseStatus.UnknownError;

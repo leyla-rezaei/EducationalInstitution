@@ -43,19 +43,11 @@ namespace EducationalInstitution.Api.Services.Implementation
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
 
-            var resultExistStudent = Get<Student>()
-              .Where(x => x.Id == id)
+            var resultExist = Get<Student>()
+              .Where(x => x.ClassId == id)
                .Any();
 
-            var resultExistCourse = Get<Course>()
-             .Where(x => x.Id == id)
-              .Any();
-
-            var resultExistInstructor = Get<Instructor>()
-             .Where(x => x.Id == id)
-              .Any();
-
-            if (resultExistStudent || resultExistCourse || resultExistInstructor) return ResponseStatus.UnknownError;
+            if (resultExist) return ResponseStatus.UnknownError;
 
             return Delete(id);
         }

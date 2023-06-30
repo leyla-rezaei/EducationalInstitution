@@ -44,19 +44,19 @@ namespace EducationalInstitution.Api.Services
             if (result == null) return ResponseStatus.NotFound;
 
             var resultExistClass = Get<Class>()
-              .Where(x => x.Id == id)
+              .Where(x => x.CourseId == id)
                .Any();
 
             var resultExistCourseStudent = Get<CourseStudent>()
-              .Where(x => x.Id == id)
+              .Where(x => x.CourseId == id)
                .Any();
 
             var resultExistScheduleCourse = Get<ScheduleCourse>()
-             .Where(x => x.Id == id)
+             .Where(x => x.CourseId == id)
               .Any();
 
             var resultExistRegistrationInvoice = Get<RegistrationInvoice>()
-             .Where(x => x.Id == id)
+             .Where(x => x.CourseStudentId == id)
               .Any();
 
             if (resultExistClass || resultExistCourseStudent || resultExistScheduleCourse || resultExistRegistrationInvoice) return ResponseStatus.UnknownError;

@@ -44,7 +44,7 @@ namespace EducationalInstitution.Api.Services.Implementation
             if (result == null) return ResponseStatus.NotFound;
 
             var resultExist = Get<Message>()
-             .Where(x => x.Id == id)
+             .Where(x => x.UserId == id)
               .Any();
 
             if (resultExist)

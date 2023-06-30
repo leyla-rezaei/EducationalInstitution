@@ -43,17 +43,6 @@ namespace EducationalInstitution.Api.Services
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
 
-            var resultExistPaymentOfSalary = Get<PaymentOfSalary>()
-             .Where(x => x.Id == id)
-              .Any();
-
-            var resultExistRegistrationInvoice = Get<CourseStudent>()
-               .Where(x => x.Id == id)
-                .Any();
-
-            if (resultExistPaymentOfSalary || resultExistRegistrationInvoice)
-                return ResponseStatus.UnknownError;
-
             return Delete(id);
         }
     }
