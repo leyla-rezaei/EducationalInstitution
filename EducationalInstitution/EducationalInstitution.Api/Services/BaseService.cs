@@ -2,7 +2,7 @@
 using EducationalInstitution.Api.Repository.Contracts;
 using EducationalInstitution.Api.Responses;
 using EducationalInstitution.Api.Services.Contracts;
-using Mapster;
+using AutoMapper;
 
 namespace EducationalInstitution.Api.Services
 {
@@ -11,11 +11,21 @@ namespace EducationalInstitution.Api.Services
         where TInput : class
     {
         private readonly IBaseRepository<TEntity> _repository;
+        private readonly IMapper mapper;
+
 
         public BaseService(IBaseRepository<TEntity> repository)
         {
             _repository = repository;
+
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TInput, TEntity>();
+            });
+
+            mapper = mapperConfig.CreateMapper();
         }
+
         public IQueryable<TEntity> Get()
         {
             return _repository.GetAll();
@@ -36,6 +46,7 @@ namespace EducationalInstitution.Api.Services
             return result;
         }
 
+
         public virtual ListResponse<TCustomEntity> GetAll<TCustomEntity>()
             where TCustomEntity : BaseEntity
         {
@@ -45,6 +56,7 @@ namespace EducationalInstitution.Api.Services
 
             return result;
         }
+
 
         public virtual SingleResponse<TEntity> GetById(int id)
         {
@@ -59,23 +71,25 @@ namespace EducationalInstitution.Api.Services
 
         public virtual SingleResponse<TEntity> Create(TInput input)
         {
-
-            var entity = input.Adapt<TEntity>();
+            var entity = mapper.Map<TEntity>(input);
             var result = _repository.Create(entity);
 
             return result;
         }
+
 
         public virtual SingleResponse<TEntity> Update(int id, TInput input)
         {
             var result = _repository.GetById(id);
             if (result == null) return ResponseStatus.NotFound;
 
-            var entity = input.Adapt<TEntity>();
+            var entity = mapper.Map<TEntity>(input);
+
             var resultExist = _repository.Update(id, entity);
 
             return resultExist;
         }
+
 
         public virtual SingleResponse<bool> Delete(int id)
         {
