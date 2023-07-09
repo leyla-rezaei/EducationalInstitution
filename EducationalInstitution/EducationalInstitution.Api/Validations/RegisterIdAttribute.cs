@@ -14,20 +14,24 @@ namespace EducationalInstitution.Api.Validations
             {
                 return true;
             }
+
             Regex regexRegisterId = new Regex(@"^\d{4}$");
             if (!regexRegisterId.IsMatch((string)value))
             {
                 return false;
             }
+
             if (CheckDuplicate((string)value))
             {
                 ErrorMessage = $"Duplicate register id: {(string)value}"; 
                 return false;
             }
+
             RegisterIds.Add((string)value);
 
             return true;
         }
+
         private bool CheckDuplicate(string registerId)
         {
             return RegisterIds.Any(x => x == registerId);
