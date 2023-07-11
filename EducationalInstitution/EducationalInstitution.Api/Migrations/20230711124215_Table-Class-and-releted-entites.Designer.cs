@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationalInstitution.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230628125240_edit-Table-MiscellaneousExpense")]
-    partial class editTableMiscellaneousExpense
+    [Migration("20230711124215_Table-Class-and-releted-entites")]
+    partial class TableClassandreletedentites
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,39 @@ namespace EducationalInstitution.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.BankAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("ModificationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BankAccount");
+                });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Class", b =>
                 {
@@ -72,7 +105,6 @@ namespace EducationalInstitution.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Certificate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CheckStatus")
@@ -85,7 +117,6 @@ namespace EducationalInstitution.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ExamEntranceCard")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExamResult")
@@ -97,8 +128,8 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<DateTimeOffset>("ModificationDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("PrerequisiteId")
-                        .HasColumnType("int");
+                    b.Property<string>("Prerequisite")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Score")
                         .HasColumnType("float");
@@ -111,8 +142,6 @@ namespace EducationalInstitution.Api.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PrerequisiteId");
 
                     b.ToTable("Course");
                 });
@@ -149,7 +178,7 @@ namespace EducationalInstitution.Api.Migrations
                     b.ToTable("CourseStudent");
                 });
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.InstitutionInformation", b =>
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.DepositAmount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,23 +186,11 @@ namespace EducationalInstitution.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Fax")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ImageLogo")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -181,21 +198,52 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<DateTimeOffset>("ModificationDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("InstitutionInformations");
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("DepositAmount");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.InterestRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("BankAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("DepositAmountId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("ModificationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.HasIndex("DepositAmountId");
+
+                    b.ToTable("InterestRate");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Message", b =>
@@ -278,9 +326,14 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<decimal>("SalaryAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("WithdrawalAmountId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("MiscellaneousExpenses");
+                    b.HasIndex("WithdrawalAmountId");
+
+                    b.ToTable("MiscellaneousExpense");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.PaymentOfSalary", b =>
@@ -312,33 +365,16 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("WithdrawalAmountId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PaymentOfSalarys");
-                });
+                    b.HasIndex("WithdrawalAmountId");
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Prerequisite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset>("ModificationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Prerequisite");
+                    b.ToTable("PaymentOfSalary");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.RegistrationInvoice", b =>
@@ -358,6 +394,9 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("DepositAmountId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DepositID")
                         .HasColumnType("int");
 
@@ -374,8 +413,8 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalNumberCourses")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("TotalNumberCourses")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalTuition")
                         .HasColumnType("decimal(18,2)");
@@ -389,6 +428,8 @@ namespace EducationalInstitution.Api.Migrations
                     b.HasIndex("CourseId");
 
                     b.HasIndex("CourseStudentId");
+
+                    b.HasIndex("DepositAmountId");
 
                     b.HasIndex("StudentId");
 
@@ -470,42 +511,6 @@ namespace EducationalInstitution.Api.Migrations
                     b.ToTable("ScheduleCourse");
                 });
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.TotalBill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset>("ModificationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("PaymentOfSalaryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RegistrationInvoiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PaymentOfSalaryId");
-
-                    b.HasIndex("RegistrationInvoiceId");
-
-                    b.ToTable("TotalBills");
-                });
-
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -583,6 +588,70 @@ namespace EducationalInstitution.Api.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.WithdrawalAmount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("ModificationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("WithdrawalAmount");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("BankAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("ModificationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.ToTable("Transaction");
+                });
+
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Instructor", b =>
                 {
                     b.HasBaseType("EducationalInstitution.Api.Models.Entities.User");
@@ -648,16 +717,6 @@ namespace EducationalInstitution.Api.Migrations
                     b.Navigation("Instructor");
                 });
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Course", b =>
-                {
-                    b.HasOne("EducationalInstitution.Api.Models.Entities.Prerequisite", "Prerequisite")
-                        .WithMany("Courses")
-                        .HasForeignKey("PrerequisiteId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Prerequisite");
-                });
-
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.CourseStudent", b =>
                 {
                     b.HasOne("EducationalInstitution.Api.Models.Entities.Course", "Course")
@@ -677,6 +736,36 @@ namespace EducationalInstitution.Api.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.DepositAmount", b =>
+                {
+                    b.HasOne("EducationalInstitution.Api.Models.Transaction", "Transaction")
+                        .WithMany("DepositAmounts")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.InterestRate", b =>
+                {
+                    b.HasOne("EducationalInstitution.Api.Models.Entities.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EducationalInstitution.Api.Models.Entities.DepositAmount", "DepositAmount")
+                        .WithMany("InterestRates")
+                        .HasForeignKey("DepositAmountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
+
+                    b.Navigation("DepositAmount");
+                });
+
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Message", b =>
                 {
                     b.HasOne("EducationalInstitution.Api.Models.Entities.User", "User")
@@ -688,6 +777,17 @@ namespace EducationalInstitution.Api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.MiscellaneousExpense", b =>
+                {
+                    b.HasOne("EducationalInstitution.Api.Models.Entities.WithdrawalAmount", "WithdrawalAmount")
+                        .WithMany("MiscellaneousExpenses")
+                        .HasForeignKey("WithdrawalAmountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("WithdrawalAmount");
+                });
+
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.PaymentOfSalary", b =>
                 {
                     b.HasOne("EducationalInstitution.Api.Models.Entities.User", "User")
@@ -696,7 +796,15 @@ namespace EducationalInstitution.Api.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("EducationalInstitution.Api.Models.Entities.WithdrawalAmount", "WithdrawalAmount")
+                        .WithMany("PaymentOfSalaries")
+                        .HasForeignKey("WithdrawalAmountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("User");
+
+                    b.Navigation("WithdrawalAmount");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.RegistrationInvoice", b =>
@@ -712,12 +820,20 @@ namespace EducationalInstitution.Api.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("EducationalInstitution.Api.Models.Entities.DepositAmount", "DepositAmount")
+                        .WithMany("RegistrationInvoices")
+                        .HasForeignKey("DepositAmountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("EducationalInstitution.Api.Models.Entities.Student", null)
                         .WithMany("RegistrationInvoices")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CourseStudent");
+
+                    b.Navigation("DepositAmount");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.ScheduleCourse", b =>
@@ -739,23 +855,26 @@ namespace EducationalInstitution.Api.Migrations
                     b.Navigation("Schedule");
                 });
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.TotalBill", b =>
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.WithdrawalAmount", b =>
                 {
-                    b.HasOne("EducationalInstitution.Api.Models.Entities.PaymentOfSalary", "PaymentOfSalary")
-                        .WithMany()
-                        .HasForeignKey("PaymentOfSalaryId")
+                    b.HasOne("EducationalInstitution.Api.Models.Transaction", "Transaction")
+                        .WithMany("WithdrawalAmounts")
+                        .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("EducationalInstitution.Api.Models.Entities.RegistrationInvoice", "RegistrationInvoice")
-                        .WithMany()
-                        .HasForeignKey("RegistrationInvoiceId")
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Transaction", b =>
+                {
+                    b.HasOne("EducationalInstitution.Api.Models.Entities.BankAccount", "BankAccount")
+                        .WithMany("Transactions")
+                        .HasForeignKey("BankAccountId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("PaymentOfSalary");
-
-                    b.Navigation("RegistrationInvoice");
+                    b.Navigation("BankAccount");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Student", b =>
@@ -767,6 +886,11 @@ namespace EducationalInstitution.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.BankAccount", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Class", b =>
@@ -785,9 +909,11 @@ namespace EducationalInstitution.Api.Migrations
                     b.Navigation("ScheduleCourses");
                 });
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Prerequisite", b =>
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.DepositAmount", b =>
                 {
-                    b.Navigation("Courses");
+                    b.Navigation("InterestRates");
+
+                    b.Navigation("RegistrationInvoices");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Schedule", b =>
@@ -798,6 +924,20 @@ namespace EducationalInstitution.Api.Migrations
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.User", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.WithdrawalAmount", b =>
+                {
+                    b.Navigation("MiscellaneousExpenses");
+
+                    b.Navigation("PaymentOfSalaries");
+                });
+
+            modelBuilder.Entity("EducationalInstitution.Api.Models.Transaction", b =>
+                {
+                    b.Navigation("DepositAmounts");
+
+                    b.Navigation("WithdrawalAmounts");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.Instructor", b =>

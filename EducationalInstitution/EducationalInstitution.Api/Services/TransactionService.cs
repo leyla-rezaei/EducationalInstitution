@@ -1,17 +1,18 @@
-﻿using EducationalInstitution.Api.Models.Entities;
+﻿using EducationalInstitution.Api.Models;
+using EducationalInstitution.Api.Models.Entities;
 using EducationalInstitution.Api.Models.Input;
 using EducationalInstitution.Api.Repository.Contracts;
 using EducationalInstitution.Api.Responses;
 using EducationalInstitution.Api.Services.Contracts;
 using System.ComponentModel.DataAnnotations;
 
-namespace EducationalInstitution.Api.Services
+namespace EducationalInstitution.Api.Services.Implementation
 {
-    public class TotalBillService : BaseService<TotalBill, TotalBillInput>, ITotalBillService
+    public class TransactionService : BaseService<Transaction, TransactionInput>, ITransactionService
     {
-        public TotalBillService(IBaseRepository<TotalBill> repository) : base(repository)
+        public TransactionService(IBaseRepository<Transaction> repository) : base(repository)
         { }
-        public override SingleResponse<TotalBill> Create(TotalBillInput input)
+        public override SingleResponse<Transaction> Create(TransactionInput input)
         {
             if (input == null) return ResponseStatus.Failed;
 
@@ -24,7 +25,7 @@ namespace EducationalInstitution.Api.Services
             return Create(input);
         }
 
-        public override SingleResponse<TotalBill> Update(int id, TotalBillInput input)
+        public override SingleResponse<Transaction> Update(int id, TransactionInput input)
         {
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
@@ -42,6 +43,15 @@ namespace EducationalInstitution.Api.Services
         {
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
+
+            var resultExistWithdrawalAmount = Get<WithdrawalAmount>()
+             .Where(x => x.TransactionId == id)
+              .Any();
+            var resultExistDepositAmount = Get<DepositAmount>()
+               .Where(x => x.TransactionId == id)
+                .Any();
+            if (resultExistDepositAmount || resultExistWithdrawalAmount)
+                return ResponseStatus.UnknownError;
 
             return Delete(id);
         }

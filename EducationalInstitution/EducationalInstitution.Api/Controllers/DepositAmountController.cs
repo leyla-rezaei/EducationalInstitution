@@ -2,12 +2,12 @@
 using EducationalInstitution.Api.Models.Input;
 using EducationalInstitution.Api.Services.Contracts;
 
+
 namespace EducationalInstitution.Api.Controllers
 {
-    public class PaymentOfSalaryController : BaseController<IPaymentOfSalaryService, PaymentOfSalary, PaymentOfSalaryInput>
+    public class DepositAmountController : BaseController<IDepositAmountService, DepositAmount, DepositAmountInput>
     {
-
-        public PaymentOfSalaryController(IPaymentOfSalaryService service) : base(service)
+        public DepositAmountController(IDepositAmountService service) : base(service)
         { }
     }
 }

@@ -68,18 +68,45 @@ namespace EducationalInstitution.Api.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Prerequisite",
+                name: "BankAccount",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountNumber = table.Column<int>(type: "int", nullable: false),
+                    BankName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prerequisite", x => x.Id);
+                    table.PrimaryKey("PK_BankAccount", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Course",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Department = table.Column<int>(type: "int", nullable: false),
+                    CheckStatus = table.Column<int>(type: "int", nullable: false),
+                    Tuition = table.Column<double>(type: "float", nullable: false),
+                    Score = table.Column<double>(type: "float", nullable: false),
+                    ExamResult = table.Column<int>(type: "int", nullable: false),
+                    ExamEntranceCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Certificate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Prerequisite = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Course", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,31 +132,25 @@ namespace EducationalInstitution.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Course",
+                name: "Transaction",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Department = table.Column<int>(type: "int", nullable: false),
-                    CheckStatus = table.Column<int>(type: "int", nullable: false),
-                    Tuition = table.Column<double>(type: "float", nullable: false),
-                    Score = table.Column<double>(type: "float", nullable: false),
-                    ExamResult = table.Column<int>(type: "int", nullable: false),
-                    ExamEntranceCard = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Certificate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PrerequisiteId = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BankAccountId = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Course", x => x.Id);
+                    table.PrimaryKey("PK_Transaction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Course_Prerequisite_PrerequisiteId",
-                        column: x => x.PrerequisiteId,
-                        principalTable: "Prerequisite",
+                        name: "FK_Transaction_BankAccount_BankAccountId",
+                        column: x => x.BankAccountId,
+                        principalTable: "BankAccount",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -224,17 +245,95 @@ namespace EducationalInstitution.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DepositAmount",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DepositAmount", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DepositAmount_Transaction_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WithdrawalAmount",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WithdrawalAmount", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WithdrawalAmount_Transaction_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InterestRate",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    BankAccountId = table.Column<int>(type: "int", nullable: false),
+                    DepositAmountId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InterestRate", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InterestRate_BankAccount_BankAccountId",
+                        column: x => x.BankAccountId,
+                        principalTable: "BankAccount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InterestRate_DepositAmount_DepositAmountId",
+                        column: x => x.DepositAmountId,
+                        principalTable: "DepositAmount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RegistrationInvoice",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalTuition = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalNumberCourses = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalNumberCourses = table.Column<int>(type: "int", nullable: false),
                     TrackingCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepositID = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CourseStudentId = table.Column<int>(type: "int", nullable: false),
+                    DepositAmountId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: true),
                     StudentId = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -257,9 +356,73 @@ namespace EducationalInstitution.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_RegistrationInvoice_DepositAmount_DepositAmountId",
+                        column: x => x.DepositAmountId,
+                        principalTable: "DepositAmount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_RegistrationInvoice_User_StudentId",
                         column: x => x.StudentId,
                         principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MiscellaneousExpense",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FeeFor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DepositID = table.Column<int>(type: "int", nullable: false),
+                    DepositDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    WithdrawalAmountId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MiscellaneousExpense", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MiscellaneousExpense_WithdrawalAmount_WithdrawalAmountId",
+                        column: x => x.WithdrawalAmountId,
+                        principalTable: "WithdrawalAmount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentOfSalary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DepositID = table.Column<int>(type: "int", nullable: false),
+                    DepositDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    WithdrawalAmountId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ModificationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentOfSalary", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentOfSalary_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PaymentOfSalary_WithdrawalAmount_WithdrawalAmountId",
+                        column: x => x.WithdrawalAmountId,
+                        principalTable: "WithdrawalAmount",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -280,11 +443,6 @@ namespace EducationalInstitution.Api.Migrations
                 column: "InstructorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Course_PrerequisiteId",
-                table: "Course",
-                column: "PrerequisiteId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CourseStudent_CourseId",
                 table: "CourseStudent",
                 column: "CourseId");
@@ -295,6 +453,36 @@ namespace EducationalInstitution.Api.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DepositAmount_TransactionId",
+                table: "DepositAmount",
+                column: "TransactionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InterestRate_BankAccountId",
+                table: "InterestRate",
+                column: "BankAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InterestRate_DepositAmountId",
+                table: "InterestRate",
+                column: "DepositAmountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MiscellaneousExpense_WithdrawalAmountId",
+                table: "MiscellaneousExpense",
+                column: "WithdrawalAmountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentOfSalary_UserId",
+                table: "PaymentOfSalary",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentOfSalary_WithdrawalAmountId",
+                table: "PaymentOfSalary",
+                column: "WithdrawalAmountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RegistrationInvoice_CourseId",
                 table: "RegistrationInvoice",
                 column: "CourseId");
@@ -303,6 +491,11 @@ namespace EducationalInstitution.Api.Migrations
                 name: "IX_RegistrationInvoice_CourseStudentId",
                 table: "RegistrationInvoice",
                 column: "CourseStudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RegistrationInvoice_DepositAmountId",
+                table: "RegistrationInvoice",
+                column: "DepositAmountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RegistrationInvoice_StudentId",
@@ -318,6 +511,16 @@ namespace EducationalInstitution.Api.Migrations
                 name: "IX_ScheduleCourse_ScheduleId",
                 table: "ScheduleCourse",
                 column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transaction_BankAccountId",
+                table: "Transaction",
+                column: "BankAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WithdrawalAmount_TransactionId",
+                table: "WithdrawalAmount",
+                column: "TransactionId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_User_Classes_ClassId",
@@ -339,13 +542,28 @@ namespace EducationalInstitution.Api.Migrations
                 name: "Classes");
 
             migrationBuilder.DropTable(
+                name: "InterestRate");
+
+            migrationBuilder.DropTable(
+                name: "MiscellaneousExpense");
+
+            migrationBuilder.DropTable(
+                name: "PaymentOfSalary");
+
+            migrationBuilder.DropTable(
                 name: "RegistrationInvoice");
 
             migrationBuilder.DropTable(
                 name: "ScheduleCourse");
 
             migrationBuilder.DropTable(
+                name: "WithdrawalAmount");
+
+            migrationBuilder.DropTable(
                 name: "CourseStudent");
+
+            migrationBuilder.DropTable(
+                name: "DepositAmount");
 
             migrationBuilder.DropTable(
                 name: "Schedule");
@@ -354,7 +572,10 @@ namespace EducationalInstitution.Api.Migrations
                 name: "Course");
 
             migrationBuilder.DropTable(
-                name: "Prerequisite");
+                name: "Transaction");
+
+            migrationBuilder.DropTable(
+                name: "BankAccount");
 
             migrationBuilder.DropIndex(
                 name: "IX_User_ClassId",

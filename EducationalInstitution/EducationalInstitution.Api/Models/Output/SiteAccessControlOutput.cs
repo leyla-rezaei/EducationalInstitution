@@ -4,6 +4,7 @@ namespace EducationalInstitution.Api.Models.Output
 {
     public class SiteAccessControlOutput
     {
+        public int Id { get; set; }
         public bool BasicInformation { get; set; }
         public bool Reporting { get; set; }
         public bool StudentAffairs { get; set; }
@@ -14,6 +15,5 @@ namespace EducationalInstitution.Api.Models.Output
         public bool ClassInformation { get; set; }
         public bool RelatedAnnouncements { get; set; }
         public UserType UserType { get; set; }
-
     }
 }

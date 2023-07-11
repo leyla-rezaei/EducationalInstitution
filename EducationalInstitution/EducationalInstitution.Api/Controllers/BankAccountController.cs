@@ -4,9 +4,9 @@ using EducationalInstitution.Api.Services.Contracts;
 
 namespace EducationalInstitution.Api.Controllers
 {
-    public class TotalBillController : BaseController<ITotalBillService, TotalBill, TotalBillInput>
+    public class BankAccountController : BaseController<IBankAccountService, BankAccount, BankAccountInput>
     {
-        public TotalBillController(ITotalBillService service) : base(service)
-        { }
+        public BankAccountController(IBankAccountService service) : base(service)
+        {}  
     }
 }

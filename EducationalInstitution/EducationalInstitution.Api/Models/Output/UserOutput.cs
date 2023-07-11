@@ -1,10 +1,10 @@
 ﻿using EducationalInstitution.Api.Enum;
+using EducationalInstitution.Api.Models.Entities;
 
 namespace EducationalInstitution.Api.Models.Output
 {
     public class UserOutput
     {
-        public DateTimeOffset CreationDate { get; set; }
         public int Id { get; set; }
         public string RegisterId { get; set; }
         public string ImageAddressUrl { get; set; }

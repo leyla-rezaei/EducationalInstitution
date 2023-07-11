@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EducationalInstitution.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class editTableSiteAccessControl : Migration
+    public partial class TableSiteAccessControl : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

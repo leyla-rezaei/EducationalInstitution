@@ -4,10 +4,9 @@ using EducationalInstitution.Api.Services.Contracts;
 
 namespace EducationalInstitution.Api.Controllers
 {
-    public class PaymentOfSalaryController : BaseController<IPaymentOfSalaryService, PaymentOfSalary, PaymentOfSalaryInput>
+    public class InterestRateController : BaseController<IInterestRateService, InterestRate, InterestRateInput>
     {
-
-        public PaymentOfSalaryController(IPaymentOfSalaryService service) : base(service)
+        public InterestRateController(IInterestRateService service) : base(service)
         { }
     }
 }

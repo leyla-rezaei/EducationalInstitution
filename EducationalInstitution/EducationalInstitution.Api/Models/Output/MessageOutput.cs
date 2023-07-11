@@ -5,7 +5,6 @@ namespace EducationalInstitution.Api.Models.Output
 {
     public class MessageOutput
     {
-        public DateTimeOffset CreationDate { get; set; }
         public int Id { get; set; }
         public DateTime Timestamp { get; set; }
         public string Title { get; set; }

@@ -6,6 +6,7 @@ namespace EducationalInstitution.Api.Models.Input
     public class EmployeeOutput : UserOutput
     {
         public Position Position { get; set; }
+        public DateTimeOffset BirthDate { get; set; }
         public DateTimeOffset HiringDate { get; set; }
     }
 }

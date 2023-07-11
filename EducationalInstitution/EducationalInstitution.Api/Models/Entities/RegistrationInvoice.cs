@@ -14,6 +14,7 @@ namespace EducationalInstitution.Api.Models.Entities
         //Relations
         public CourseStudent CourseStudent { get; set; }
         public int CourseStudentId { get; set; }
-
-    }
+        public DepositAmount DepositAmount { get; set; }
+        public int DepositAmountId { get; set; }
+    } 
 }

@@ -62,11 +62,7 @@ namespace EducationalInstitution.Api.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<InstitutionInformation> InstitutionInformations { get; set; }
         public DbSet<Class> Classes { get; set; }
-        public DbSet<TotalBill> TotalBills { get; set; }
-        public DbSet<MiscellaneousExpense> MiscellaneousExpenses { get; set; }
-        public DbSet<PaymentOfSalary> PaymentOfSalarys { get; set; }
         public DbSet<SiteAccessControl> SiteAccessControls { get; set; }
-
 
     }
 }

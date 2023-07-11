@@ -3,6 +3,6 @@ using EducationalInstitution.Api.Models.Input;
 
 namespace EducationalInstitution.Api.Services.Contracts
 {
-    public interface ITotalBillService : IBaseService<TotalBill, TotalBillInput>
+    public interface IWithdrawalAmountService : IBaseService<WithdrawalAmount, WithdrawalAmountInput>
     { }
 }
