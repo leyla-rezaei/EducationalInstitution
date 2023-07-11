@@ -12,5 +12,8 @@ namespace EducationalInstitution.Api.Models.Entities
         //Relations
         public User User { get; set; }
         public int UserId { get; set; }
+
+        public WithdrawalAmount WithdrawalAmount{ get; set; }
+        public int WithdrawalAmountId { get; set; }
     }
 }

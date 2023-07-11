@@ -1,11 +1,11 @@
-﻿namespace EducationalInstitution.Api.Models.Input
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EducationalInstitution.Api.Models.Input
 {
     public class RegistrationInvoiceInput
     {
+        [Required]
         public decimal TotalTuition { get; set; }
-        public decimal TotalNumberCourses { get; set; }
-        public string TrackingCode { get; set; }
-        public int DepositID { get; set; }
         public string Description { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using EducationalInstitution.Api.Enum;
+using EducationalInstitution.Api.Models.Entities;
 
 namespace EducationalInstitution.Api.Models.Output
 {
     public class ScheduleOutput
     {
-        public DateTimeOffset CreationDate { get; set; }
         public int Id { get; set; }
         public AcademicSemester AcademicSemester { get; set; }
         public DateTimeOffset StartDate { get; set; }

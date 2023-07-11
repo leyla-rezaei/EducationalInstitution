@@ -1,8 +1,9 @@
-﻿namespace EducationalInstitution.Api.Models.Output
+﻿using EducationalInstitution.Api.Models.Entities;
+
+namespace EducationalInstitution.Api.Models.Output
 {
     public class PaymentOfSalaryOutput
     {
-        public DateTimeOffset CreationDate { get; set; }
         public int Id { get; set; }
         public decimal SalaryAmount { get; set; }
         public int DepositID { get; set; }

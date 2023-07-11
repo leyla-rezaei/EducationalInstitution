@@ -1,10 +1,10 @@
 ﻿using EducationalInstitution.Api.Enum;
+using EducationalInstitution.Api.Models.Entities;
 
 namespace EducationalInstitution.Api.Models.Output
 {
     public class CourseOutput
     {
-        public DateTimeOffset CreationDate { get; set; }
         public int Id { get; set; }
         public string Title { get; set; }
         public Department Department { get; set; }
@@ -12,7 +12,8 @@ namespace EducationalInstitution.Api.Models.Output
         public double Tuition { get; set; }
         public double Score { get; set; }
         public ExamResult ExamResult { get; set; }
-        public string ExamEntranceCard { get; set; }
-        public string Certificate { get; set; }
+        public string? ExamEntranceCard { get; set; }
+        public string? Certificate { get; set; }
+        public string? Prerequisite { get; set; }
     }
 }

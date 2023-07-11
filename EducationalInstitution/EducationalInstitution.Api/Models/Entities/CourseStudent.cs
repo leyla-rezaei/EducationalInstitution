@@ -5,7 +5,6 @@ namespace EducationalInstitution.Api.Models.Entities
 {
     public class CourseStudent : BaseEntity
     {
-        //Relations 
         public Student Student { get; set; }
         public int StudentId { get; set; }
 
