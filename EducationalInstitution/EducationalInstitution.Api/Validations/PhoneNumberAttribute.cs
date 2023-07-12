@@ -18,7 +18,7 @@ namespace EducationalInstitution.Api.Validations
             }
 
             phoneNumber = phoneNumber.Replace(" ", "").Replace("-", "");
-            Regex regexphoneNumber = new Regex(@"^\+980[1-8]{2}\d{8}$");
+            Regex regexphoneNumber = new Regex(@"^\+98[1-8]{2}\d{8}$");
 
             if (!regexphoneNumber.IsMatch((string)value))
             {

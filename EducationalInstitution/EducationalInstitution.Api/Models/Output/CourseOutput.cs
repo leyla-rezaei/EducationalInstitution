@@ -9,7 +9,7 @@ namespace EducationalInstitution.Api.Models.Output
         public string Title { get; set; }
         public Department Department { get; set; }
         public CheckStatus CheckStatus { get; set; }
-        public double Tuition { get; set; }
+        public decimal Tuition { get; set; }
         public double Score { get; set; }
         public ExamResult ExamResult { get; set; }
         public string? ExamEntranceCard { get; set; }

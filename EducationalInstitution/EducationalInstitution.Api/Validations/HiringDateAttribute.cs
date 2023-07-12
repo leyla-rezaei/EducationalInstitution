@@ -4,21 +4,22 @@ namespace EducationalInstitution.Api.Validations
 {
     public class HiringDateAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        public override bool IsValid(object value)
         {
-            if (value == null || !(value is DateTimeOffset))
-            {
-                return new ValidationResult("the hiring date must be a valid date.");
-            }
+            if (value == null) return false;
 
             DateTimeOffset hiringDate = (DateTimeOffset)value;
 
             if (hiringDate.Year > DateTime.Now.Year)
             {
-                return new ValidationResult("the hiring date should not be in the future");
+                return false;
             }
 
-            return ValidationResult.Success;
+            return true;
+        }
+        public override string FormatErrorMessage(string name)
+        {
+            return $" cannot be in the future.";
         }
     }
 }

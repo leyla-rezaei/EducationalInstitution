@@ -4,10 +4,10 @@ namespace EducationalInstitution.Api.Validations
 {
     public class ScoreAttribute : ValidationAttribute
     {
-        private readonly int _min;
-        private readonly int _max;
+        private readonly double _min;
+        private readonly double _max;
 
-        public ScoreAttribute(int min, int max)
+        public ScoreAttribute(double min, double max)
         {
             _min = min;
             _max = max;
@@ -15,12 +15,12 @@ namespace EducationalInstitution.Api.Validations
 
         public override bool IsValid(object? value)
         {
-            if (value == null || !(value is int))
+            if (value == null || !(value is double))
             {
                 return false;
             }
 
-            int Score = (int)value;
+            double Score = (double)value;
 
             if (Score >= _min && Score <= _max)
             {

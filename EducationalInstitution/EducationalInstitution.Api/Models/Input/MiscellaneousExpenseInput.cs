@@ -6,11 +6,10 @@ namespace EducationalInstitution.Api.Models.Input
     public class MiscellaneousExpenseInput
     {
         public string FeeFor { get; set; }
-        [Required]
-        public decimal SalaryAmount { get; set; }
+        public decimal Amount { get; set; }
         [Required]
         public int DepositID { get; set; }
-        [DepositDate]
+      
         public DateTimeOffset DepositDate { get; set; }
     }
 }
