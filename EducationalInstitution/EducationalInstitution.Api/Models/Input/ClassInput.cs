@@ -5,9 +5,7 @@ namespace EducationalInstitution.Api.Models.Input
 {
     public class ClassInput
     {
-        [Number]
         public int Number { get; set; }
-        [Required]
         public int Capacity { get; set; } 
     }
 }

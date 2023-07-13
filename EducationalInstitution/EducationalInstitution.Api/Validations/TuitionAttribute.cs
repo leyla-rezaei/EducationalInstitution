@@ -15,12 +15,12 @@ namespace EducationalInstitution.Api.Validations
         }
         public override bool IsValid(object? value)
         {
-            if (value == null || !(value is double))
+            if (value == null || !(value is decimal))
             {
                 return false;
             }
 
-            double tuition = (double)value;
+            decimal tuition = (decimal)value;
 
             if (tuition >= _min && tuition <= _max)
             {

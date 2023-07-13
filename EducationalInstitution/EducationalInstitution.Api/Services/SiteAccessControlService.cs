@@ -15,12 +15,6 @@ namespace EducationalInstitution.Api.Services.Implementation
         {
             if (input == null) return ResponseStatus.Failed;
 
-            var results = new List<ValidationResult>();
-
-            var resultExist = Validator.TryValidateObject(input, new ValidationContext(input), results, true);
-
-            if (!resultExist) return ResponseStatus.Failed;
-
             return Create(input);
         }
 
@@ -28,12 +22,6 @@ namespace EducationalInstitution.Api.Services.Implementation
         {
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
-
-            var results = new List<ValidationResult>();
-
-            var resultExist = Validator.TryValidateObject(input, new ValidationContext(input), results, true);
-
-            if (!resultExist) return ResponseStatus.Failed;
 
             return Update(id, input);
         }

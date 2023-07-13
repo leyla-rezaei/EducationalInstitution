@@ -1,5 +1,6 @@
 ﻿using EducationalInstitution.Api.Enum;
 using EducationalInstitution.Api.Models.Entities;
+using EducationalInstitution.Api.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace EducationalInstitution.Api.Models.Input
@@ -9,8 +10,8 @@ namespace EducationalInstitution.Api.Models.Input
         public string Title { get; set; }
         public Department Department { get; set; }
         public CheckStatus CheckStatus { get; set; }
-        [Range(0, double.MaxValue)]
-        public double Tuition { get; set; }
+        [Required ]
+        public decimal Tuition { get; set; }
         [Range(0, double.MaxValue)]
         public double Score { get; set; }
         public ExamResult ExamResult { get; set; }
