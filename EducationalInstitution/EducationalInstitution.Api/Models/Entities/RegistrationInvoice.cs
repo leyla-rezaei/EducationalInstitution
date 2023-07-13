@@ -22,7 +22,7 @@ namespace EducationalInstitution.Api.Models.Entities
 
         public void CalculateNumberCourses(List<Course> courses)
         {
-            decimal totalNumber = 0;
+            int totalNumber = 0;
             foreach (var course in courses)
             {
                 totalNumber += 1;
