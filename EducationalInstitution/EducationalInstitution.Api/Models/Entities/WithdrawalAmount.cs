@@ -5,7 +5,7 @@ namespace EducationalInstitution.Api.Models.Entities
     public class WithdrawalAmount : BaseEntity
     {
         public decimal Amount { get; set; } 
-        public void CalculateWithdrawal()
+        public void CalculateAmount()
         {  
             decimal MiscellaneousExpenseTotal = 0;
             decimal PaymentOfSalarieTotal = 0;
@@ -23,7 +23,7 @@ namespace EducationalInstitution.Api.Models.Entities
             Amount = PaymentOfSalarieTotal + MiscellaneousExpenseTotal;
         }
 
-
+         
         //Relations
 
         public Transaction Transaction { get; set; }

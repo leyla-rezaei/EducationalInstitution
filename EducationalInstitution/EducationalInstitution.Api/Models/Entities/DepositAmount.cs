@@ -5,8 +5,8 @@ namespace EducationalInstitution.Api.Models.Entities
     public class DepositAmount : BaseEntity
     {
         public decimal Amount { get; set; }
-        public void CalculateDeposit()
-        {
+        public void CalculateAmount()
+        { 
             decimal InterestRateTotal = 0;
             decimal RegistrationInvoiceTotal = 0;
 
