@@ -1,4 +1,5 @@
 ﻿using EducationalInstitution.Api.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace EducationalInstitution.Api.Models.Input
 {
@@ -13,6 +14,7 @@ namespace EducationalInstitution.Api.Models.Input
         public bool CourseInformation { get; set; }
         public bool ClassInformation { get; set; }
         public bool RelatedAnnouncements { get; set; }
+        [Required]
         public UserType UserType { get; set; }
     }
 }

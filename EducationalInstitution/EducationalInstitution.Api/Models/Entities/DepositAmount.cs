@@ -5,6 +5,23 @@ namespace EducationalInstitution.Api.Models.Entities
     public class DepositAmount : BaseEntity
     {
         public decimal Amount { get; set; }
+        public void CalculateDeposit()
+        {
+            decimal InterestRateTotal = 0;
+            decimal RegistrationInvoiceTotal = 0;
+
+            foreach (var interestRate in InterestRates)
+            {
+                InterestRateTotal += interestRate.Amount;
+            }
+
+            foreach (var registrationInvoice in RegistrationInvoices)
+            {
+                RegistrationInvoiceTotal += registrationInvoice.TotalTuition;
+            }
+
+            Amount = RegistrationInvoiceTotal + InterestRateTotal;
+        }
 
 
         //Relations

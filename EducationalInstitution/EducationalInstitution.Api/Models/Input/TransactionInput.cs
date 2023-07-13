@@ -4,6 +4,5 @@
     {
         public DateTimeOffset Date { get; }
         public string Description { get; set; }
-        public decimal Balance { get; set; }
     }
 }

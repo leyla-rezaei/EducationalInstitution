@@ -33,10 +33,8 @@ builder.Services.AddScoped<IInstitutionInformationService, InstitutionInformatio
 builder.Services.AddScoped<IMiscellaneousExpenseService, MiscellaneousExpenseService>();
 builder.Services.AddScoped<IPaymentOfSalaryService, PaymentOfSalaryService>();
 builder.Services.AddScoped<ISiteAccessControlService, SiteAccessControlService>();
-builder.Services.AddScoped<IDepositAmountService, DepositAmountService>();
 builder.Services.AddScoped<IInterestRateService, InterestRateService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.AddScoped<IWithdrawalAmountService, WithdrawalAmountService>();
 builder.Services.AddScoped<IBankAccountService, BankAccountService>();
 
 var app = builder.Build();
