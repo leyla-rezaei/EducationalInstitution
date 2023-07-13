@@ -24,7 +24,7 @@ namespace EducationalInstitution.Api.Services.Implementation
             return Create(input);
         }
 
-        public override SingleResponse<InstitutionInformation> Update(int id,InstitutionInformationInput input)
+        public override SingleResponse<InstitutionInformation> Update(int id, InstitutionInformationInput input)
         {
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;

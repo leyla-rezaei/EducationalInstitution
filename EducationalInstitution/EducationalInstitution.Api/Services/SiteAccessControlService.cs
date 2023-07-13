@@ -7,13 +7,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EducationalInstitution.Api.Services.Implementation
 {
-    public class SiteAccessControlService : BaseService<SiteAccessControl, SiteAccessControlInput>,ISiteAccessControlService
+    public class SiteAccessControlService : BaseService<SiteAccessControl, SiteAccessControlInput>, ISiteAccessControlService
     {
         public SiteAccessControlService(IBaseRepository<SiteAccessControl> repository) : base(repository)
-        { } 
+        { }
+
         public override SingleResponse<SiteAccessControl> Create(SiteAccessControlInput input)
         {
             if (input == null) return ResponseStatus.Failed;
+
+            var results = new List<ValidationResult>();
+            var validationSucceeded = Validator.TryValidateObject(input, new ValidationContext(input), results, true);
+
+            if (!validationSucceeded) return ResponseStatus.Failed;
 
             return Create(input);
         }
@@ -22,6 +28,12 @@ namespace EducationalInstitution.Api.Services.Implementation
         {
             var result = GetById(id);
             if (result == null) return ResponseStatus.NotFound;
+
+            var results = new List<ValidationResult>();
+
+            var resultExist = Validator.TryValidateObject(input, new ValidationContext(input), results, true);
+
+            if (!resultExist) return ResponseStatus.Failed;
 
             return Update(id, input);
         }

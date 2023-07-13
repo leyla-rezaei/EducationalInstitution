@@ -50,7 +50,6 @@ namespace EducationalInstitution.Api.Services.Implementation
             if (resultExist)
                 return ResponseStatus.UnknownError;
 
-
             return Delete(id);
         }
     }
