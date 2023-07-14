@@ -11,12 +11,12 @@ namespace EducationalInstitution.Api.Models.Entities
       
         public void CalculateTuition(List<Course> courses)
         {
-            decimal tuitionTotal = 0;
+            decimal totalTuition = 0;
             foreach (var course in courses)
             {
-                tuitionTotal += course.Tuition;
+               totalTuition += course.Tuition;
             }
-            TotalTuition = tuitionTotal;
+            TotalTuition = totalTuition;
         }
         public int TotalNumberCourses { get; set; }
 

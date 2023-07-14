@@ -7,20 +7,20 @@ namespace EducationalInstitution.Api.Models.Entities
         public decimal Amount { get; set; } 
         public void CalculateAmount()
         {  
-            decimal MiscellaneousExpenseTotal = 0;
-            decimal PaymentOfSalarieTotal = 0;
+            decimal totalMiscellaneousExpense = 0;
+            decimal totalPaymentOfSalarie = 0;
 
             foreach (var miscellaneousExpense in MiscellaneousExpenses)
             {
-                MiscellaneousExpenseTotal += miscellaneousExpense.Amount;
+                totalMiscellaneousExpense += miscellaneousExpense.Amount;
             }
 
             foreach (var paymentOfSalary in PaymentOfSalaries)
             {
-                PaymentOfSalarieTotal += paymentOfSalary.SalaryAmount;
+                totalPaymentOfSalarie += paymentOfSalary.SalaryAmount;
             }
 
-            Amount = PaymentOfSalarieTotal + MiscellaneousExpenseTotal;
+            Amount = totalPaymentOfSalarie + totalMiscellaneousExpense;
         }
 
          

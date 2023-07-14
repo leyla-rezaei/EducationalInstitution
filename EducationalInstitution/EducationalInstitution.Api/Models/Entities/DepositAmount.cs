@@ -7,22 +7,22 @@ namespace EducationalInstitution.Api.Models.Entities
         public decimal Amount { get; set; }
         public void CalculateAmount()
         { 
-            decimal InterestRateTotal = 0;
-            decimal RegistrationInvoiceTotal = 0;
+            decimal totalInterestRate = 0;
+            decimal totalRegistrationInvoice = 0;
 
             foreach (var interestRate in InterestRates)
             {
-                InterestRateTotal += interestRate.Amount;
+                totalInterestRate += interestRate.Amount;
             }
 
             foreach (var registrationInvoice in RegistrationInvoices)
             {
-                RegistrationInvoiceTotal += registrationInvoice.TotalTuition;
+                totalRegistrationInvoice += registrationInvoice.TotalTuition;
             }
 
-            Amount = RegistrationInvoiceTotal + InterestRateTotal;
+            Amount = totalRegistrationInvoice + totalInterestRate;
         }
-
+          
 
         //Relations
         public Transaction Transaction { get; set; }

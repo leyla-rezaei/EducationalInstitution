@@ -10,20 +10,20 @@ namespace EducationalInstitution.Api.Models
         public decimal Balance { get; set; }
         public void CalculateBalance()
         {
-            decimal depositTotal = 0;
-            decimal withdrawalTotal = 0;
+            decimal totalDeposit = 0;
+            decimal totalWithdrawal = 0;
 
             foreach (var deposit in DepositAmounts)
             {
-                depositTotal += deposit.Amount;
+                totalDeposit += deposit.Amount;
             }
 
             foreach (var withdrawal in WithdrawalAmounts)
             {
-                withdrawalTotal += withdrawal.Amount;
+               totalWithdrawal += withdrawal.Amount;
             }
 
-            Balance = depositTotal - withdrawalTotal;
+            Balance = totalDeposit - totalWithdrawal;
         }
 
         //Relations
