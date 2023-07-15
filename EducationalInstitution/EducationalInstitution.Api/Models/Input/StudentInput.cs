@@ -6,7 +6,7 @@ namespace EducationalInstitution.Api.Models.Input
     public class StudentInput : UserInput
     {
         public string FatherName { get; set; }
-        [BirthDate]
+        [BirthDate("yyyy-MM-dd")]
         public DateTimeOffset BirthDate { get; set; }
         [NationalCode]
         public string NatioanlCode { get; set; }

@@ -34,7 +34,6 @@ builder.Services.AddScoped<IMiscellaneousExpenseService, MiscellaneousExpenseSer
 builder.Services.AddScoped<IPaymentOfSalaryService, PaymentOfSalaryService>();
 builder.Services.AddScoped<ISiteAccessControlService, SiteAccessControlService>();
 builder.Services.AddScoped<IInterestRateService, InterestRateService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IBankAccountService, BankAccountService>();
 
 var app = builder.Build();

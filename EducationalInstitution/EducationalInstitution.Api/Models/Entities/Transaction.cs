@@ -5,8 +5,6 @@ namespace EducationalInstitution.Api.Models
 {
     public class Transaction : BaseEntity
     {
-        public DateTimeOffset Date { get; }
-        public string Description { get; set; }
         public decimal Balance { get; set; }
         public void CalculateBalance()
         {

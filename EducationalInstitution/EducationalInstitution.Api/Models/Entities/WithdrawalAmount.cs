@@ -17,7 +17,7 @@ namespace EducationalInstitution.Api.Models.Entities
 
             foreach (var paymentOfSalary in PaymentOfSalaries)
             {
-                totalPaymentOfSalarie += paymentOfSalary.SalaryAmount;
+                totalPaymentOfSalarie += paymentOfSalary.Amount;
             }
 
             Amount = totalPaymentOfSalarie + totalMiscellaneousExpense;

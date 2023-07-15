@@ -7,10 +7,10 @@ namespace EducationalInstitution.Api.Models.Input
     {
         [Required]
         public string FeeFor { get; set; }
-        [Required]
+        [Amount]
         public decimal Amount { get; set; }
-        [DepositID]
         public int DepositID { get; set; }
+        [DataType (DataType.Date)]
         public DateTimeOffset DepositDate { get; set; }
     }
 }

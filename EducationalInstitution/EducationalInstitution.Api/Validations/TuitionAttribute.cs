@@ -5,10 +5,10 @@ namespace EducationalInstitution.Api.Validations
    
     public class TuitionAttribute : ValidationAttribute
     {
-        private readonly int _min;
-        private readonly int _max;
+        private readonly decimal _min;
+        private readonly decimal _max;
 
-        public TuitionAttribute(int min, int max)
+        public TuitionAttribute(decimal min, decimal max)
         {
             _min = min;
             _max = max;

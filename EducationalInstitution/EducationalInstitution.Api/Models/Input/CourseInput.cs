@@ -1,6 +1,4 @@
 ﻿using EducationalInstitution.Api.Enum;
-using EducationalInstitution.Api.Models.Entities;
-using EducationalInstitution.Api.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace EducationalInstitution.Api.Models.Input

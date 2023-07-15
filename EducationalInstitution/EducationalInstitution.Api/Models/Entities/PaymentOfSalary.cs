@@ -4,7 +4,7 @@ namespace EducationalInstitution.Api.Models.Entities
 {
     public class PaymentOfSalary : BaseEntity
     {
-        public decimal SalaryAmount { get; set; }
+        public decimal Amount { get; set; } 
         public int DepositID { get; set; }
         public DateTimeOffset DepositDate { get; set; }
 

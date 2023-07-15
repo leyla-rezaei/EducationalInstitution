@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationalInstitution.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230711124635_Table-InstitutionInformation")]
-    partial class TableInstitutionInformation
+    [Migration("20230715173825_Table-Class-and-releted-entites")]
+    partial class TableClassandreletedentites
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -138,8 +138,8 @@ namespace EducationalInstitution.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Tuition")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Tuition")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -206,56 +206,6 @@ namespace EducationalInstitution.Api.Migrations
                     b.HasIndex("TransactionId");
 
                     b.ToTable("DepositAmount");
-                });
-
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.InstitutionInformation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Fax")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageLogoAddressUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset>("ModificationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InstitutionInformations");
                 });
 
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.InterestRate", b =>
@@ -354,6 +304,9 @@ namespace EducationalInstitution.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
@@ -373,9 +326,6 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<DateTimeOffset>("ModificationDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<decimal>("SalaryAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("WithdrawalAmountId")
                         .HasColumnType("int");
 
@@ -394,6 +344,9 @@ namespace EducationalInstitution.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
@@ -408,9 +361,6 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.Property<DateTimeOffset>("ModificationDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<decimal>("SalaryAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -684,10 +634,6 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

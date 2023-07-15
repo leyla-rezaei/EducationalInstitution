@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationalInstitution.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230711124812_Table-SiteAccessControl")]
-    partial class TableSiteAccessControl
+    [Migration("20230715173931_Table-InstitutionInformation")]
+    partial class TableInstitutionInformation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -138,8 +138,8 @@ namespace EducationalInstitution.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Tuition")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Tuition")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -354,6 +354,9 @@ namespace EducationalInstitution.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
@@ -373,9 +376,6 @@ namespace EducationalInstitution.Api.Migrations
                     b.Property<DateTimeOffset>("ModificationDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<decimal>("SalaryAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("WithdrawalAmountId")
                         .HasColumnType("int");
 
@@ -394,6 +394,9 @@ namespace EducationalInstitution.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
@@ -408,9 +411,6 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.Property<DateTimeOffset>("ModificationDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<decimal>("SalaryAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -561,58 +561,6 @@ namespace EducationalInstitution.Api.Migrations
                     b.ToTable("ScheduleCourse");
                 });
 
-            modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.SiteAccessControl", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Assessment")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("BasicInformation")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ClassInformation")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CourseInformation")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("FinancialSector")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset>("ModificationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("RegistrationInformation")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RelatedAnnouncements")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Reporting")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("StudentAffairs")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("UserType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SiteAccessControls");
-                });
-
             modelBuilder.Entity("EducationalInstitution.Api.Models.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -736,10 +684,6 @@ namespace EducationalInstitution.Api.Migrations
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

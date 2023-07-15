@@ -4,8 +4,6 @@ namespace EducationalInstitution.Api.Validations
 {
     public class EndDateAttribute : ValidationAttribute
     {
-        private DateTime startDate;
-
         public override bool IsValid(object value)
         {
 
@@ -14,15 +12,7 @@ namespace EducationalInstitution.Api.Validations
                 return true;
             }
 
-            if (!(value is DateTime endDate))
-            {
-                return false;
-            }
-            if (startDate != null && endDate < startDate)
-            {
-                return false;
-            }
-
+            var endDate = (DateTimeOffset)value;
             if (endDate < DateTime.Now.Date)
             {
                 return false;

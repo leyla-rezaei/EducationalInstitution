@@ -12,7 +12,6 @@ namespace EducationalInstitution.Api.Validations
                 return true;
             }
 
-
             if (!(value is string fax))
             {
                 return false;

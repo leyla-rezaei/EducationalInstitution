@@ -94,7 +94,7 @@ namespace EducationalInstitution.Api.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Department = table.Column<int>(type: "int", nullable: false),
                     CheckStatus = table.Column<int>(type: "int", nullable: false),
-                    Tuition = table.Column<double>(type: "float", nullable: false),
+                    Tuition = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Score = table.Column<double>(type: "float", nullable: false),
                     ExamResult = table.Column<int>(type: "int", nullable: false),
                     ExamEntranceCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -137,7 +137,6 @@ namespace EducationalInstitution.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BankAccountId = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -327,11 +326,11 @@ namespace EducationalInstitution.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalTuition = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalNumberCourses = table.Column<int>(type: "int", nullable: false),
                     TrackingCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepositID = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalTuition = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalNumberCourses = table.Column<int>(type: "int", nullable: false),
                     CourseStudentId = table.Column<int>(type: "int", nullable: false),
                     DepositAmountId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: true),
@@ -376,7 +375,7 @@ namespace EducationalInstitution.Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FeeFor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DepositID = table.Column<int>(type: "int", nullable: false),
                     DepositDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     WithdrawalAmountId = table.Column<int>(type: "int", nullable: false),
@@ -401,7 +400,7 @@ namespace EducationalInstitution.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DepositID = table.Column<int>(type: "int", nullable: false),
                     DepositDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),

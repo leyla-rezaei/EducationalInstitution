@@ -6,10 +6,10 @@ namespace EducationalInstitution.Api.Models.Input
 {
     public class PaymentOfSalaryInput
     {
-        [Required]
-        public decimal SalaryAmount { get; set; }
-        [Required]
+        [Amount]
+        public decimal Amount { get; set; }
         public int DepositID { get; set; }
+        [DataType (DataType.Date)]
         public DateTimeOffset DepositDate { get; set; }
     }
 }

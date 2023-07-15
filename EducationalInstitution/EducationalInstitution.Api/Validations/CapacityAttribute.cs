@@ -1,43 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-public class CapacityAttribute : ValidationAttribute
+namespace EducationalInstitution.Api.Validations
 {
-    private readonly int _minCapacity;
-    private readonly int _maxCapacity;
-
-    public CapacityAttribute(int minCapacity, int maxCapacity)
+    public class CapacityAttribute : ValidationAttribute
     {
-        _minCapacity = minCapacity;
-        _maxCapacity = maxCapacity;
-    }
-
-    public override bool IsValid(object? value)
-    {
-        if (value == null)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            return true;
-        }
+            if (value != null)
+            {
+                var capacity = (int)value;
+                if (capacity <= 0)
+                {
+                    return new ValidationResult(ErrorMessage);
+                }
+            }
 
-        if (!(value is string capacityString))
+            return ValidationResult.Success;
+        }
+        public override string FormatErrorMessage(string name)
         {
-            return false;
+            return $"capacity must be a positive integer";
         }
-
-        if (!int.TryParse(capacityString, out int capacity))
-        {
-            return false;
-        }
-
-        if (capacity < _minCapacity || capacity > _maxCapacity)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public override string FormatErrorMessage(string name)
-    {
-        return $" must be between {_minCapacity} and {_maxCapacity}.";
     }
 }

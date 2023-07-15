@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationalInstitution.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230711123940_Table-Message-and-releted-entites")]
+    [Migration("20230715173738_Table-Message-and-releted-entites")]
     partial class TableMessageandreletedentites
     {
         /// <inheritdoc />

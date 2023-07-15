@@ -4,22 +4,33 @@ namespace EducationalInstitution.Api.Validations
 {
     public class HiringDateAttribute : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        private readonly string _dateFormat;
+
+        public HiringDateAttribute(string dateFormat)
         {
-            if (value == null) return false;
+            _dateFormat = dateFormat;
+        }
 
-            DateTimeOffset hiringDate = (DateTimeOffset)value;
-
-            if (hiringDate.Year > DateTime.Now.Year)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value == null)
             {
-                return false;
+                return new ValidationResult($"The {validationContext.DisplayName} field is required.");
             }
 
-            return true;
-        }
-        public override string FormatErrorMessage(string name)
-        {
-            return $" cannot be in the future.";
+            string hiringDateString = value.ToString();
+
+            if (!DateTimeOffset.TryParseExact(hiringDateString, _dateFormat, null, System.Globalization.DateTimeStyles.None, out DateTimeOffset hiringDate))
+            {
+                return new ValidationResult($"The {validationContext.DisplayName} field is not in the correct format. The correct format is {_dateFormat}.");
+            }
+
+            if (hiringDate > DateTimeOffset.Now)
+            {
+                return new ValidationResult($"{validationContext.DisplayName} cannot be in the future.");
+            }
+
+            return ValidationResult.Success;
         }
     }
 }
