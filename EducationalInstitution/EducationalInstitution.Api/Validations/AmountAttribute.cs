@@ -14,5 +14,9 @@ namespace EducationalInstitution.Api.Validations
                 return false;
             return true;
         }
+        public override string FormatErrorMessage(string name)
+        {
+            return $"Enter the correct amount";
+        }
     }
 }
