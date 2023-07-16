@@ -7,7 +7,7 @@ namespace EducationalInstitution.Api.Models.Input
     {
         [Required]
         public string FeeFor { get; set; }
-        [Amount]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Invalid amount value.")]
         public decimal Amount { get; set; }
         public int DepositID { get; set; }
         [DataType (DataType.Date)]

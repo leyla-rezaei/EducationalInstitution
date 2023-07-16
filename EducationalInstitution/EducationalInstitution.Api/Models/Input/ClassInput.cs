@@ -7,6 +7,7 @@ namespace EducationalInstitution.Api.Models.Input
     {
         [Required]
         public int Number { get; set; }
-        public int Capacity { get; set; } 
+        [Range(0,255)]
+        public byte Capacity { get; set; } 
     }
 }

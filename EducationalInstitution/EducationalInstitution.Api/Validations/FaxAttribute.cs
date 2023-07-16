@@ -16,6 +16,7 @@ namespace EducationalInstitution.Api.Validations
             {
                 return false;
             }
+            string hiringDateString = value.ToString();
 
             fax = fax.Replace(" ", "").Replace("-", "");
 
@@ -30,7 +31,7 @@ namespace EducationalInstitution.Api.Validations
 
         public override string FormatErrorMessage(string name)
         {
-            return $"Please enter a valid phone number.";
+            return $"Please enter a valid fax number.";
         }
     }
 }

@@ -6,7 +6,7 @@ namespace EducationalInstitution.Api.Models.Input
 {
     public class PaymentOfSalaryInput
     {
-        [Amount]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Invalid amount value.")]
         public decimal Amount { get; set; }
         public int DepositID { get; set; }
         [DataType (DataType.Date)]

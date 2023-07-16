@@ -5,7 +5,7 @@ namespace EducationalInstitution.Api.Models.Entities
     public class Class : BaseEntity
     {
         public int Number { get; set; }
-        public int Capacity { get; set; }
+        public  byte Capacity { get; set; }
 
 
         //Relations

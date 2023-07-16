@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EducationalInstitution.Api.Models.Input
+﻿namespace EducationalInstitution.Api.Models.Input
 {
     public class RegistrationInvoiceInput
     {

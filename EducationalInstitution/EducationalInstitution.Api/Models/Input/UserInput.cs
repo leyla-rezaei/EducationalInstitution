@@ -1,5 +1,4 @@
-﻿
-using EducationalInstitution.Api.Enum;
+﻿using EducationalInstitution.Api.Enum;
 using EducationalInstitution.Api.Validations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
