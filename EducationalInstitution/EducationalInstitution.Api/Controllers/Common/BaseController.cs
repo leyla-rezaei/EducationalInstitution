@@ -3,7 +3,7 @@ using EducationalInstitution.Api.Responses;
 using EducationalInstitution.Api.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EducationalInstitution.Api.Controllers
+namespace EducationalInstitution.Api.Controllers.Common
 {
     [Route("api/[controller]")]
     [ApiController]
