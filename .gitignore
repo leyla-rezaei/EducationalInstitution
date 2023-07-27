@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/EducationalInstitution/EducationalInstitution.Api/Services/Identity/AuthService.cs
