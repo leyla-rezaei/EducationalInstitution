@@ -84,6 +84,15 @@ builder.Services.AddScoped<IInterestRateService, InterestRateService>();
 builder.Services.AddScoped<IBankAccountService, BankAccountService>();
 
 var app = builder.Build();
+ 
+
+// Add CORS configuration
+app.UseCors(options =>
+{
+    options.WithOrigins("https://example.com")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
 
 var dbContext = app.Services.GetRequiredService<IDbContextFactory<DataContext>>();
 DataInitializer.Initialize(dbContext.CreateDbContext());

@@ -1,51 +1,77 @@
-﻿using AutoMapper;
-using EducationalInstitution.Api.Models.Entities;
+﻿using EducationalInstitution.Api.Models.Entities;
+using EducationalInstitution.Api.Models.Identity;
 using EducationalInstitution.Api.Models.Input;
 using EducationalInstitution.Api.Responses;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace EducationalInstitution.Api.Services.Identity
 {
     public class AuthService : IAuthService
     {
-        private readonly IAuthService _service;
+        private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
-        private readonly IMapper _mapper;
 
-        public AuthService(IAuthService service, IEmailService emailService, IMapper mapper)
-        { 
-            _service = service;
+        public AuthService(IAuthService service, IEmailService emailService)
+        {
+            _authService = service;
             _emailService = emailService;
-            _mapper = mapper;
         }
 
-        public SingleResponse<User> CreateUser(UserInput input, CancellationToken cancellationToken)
+        public SingleResponse<User> GetById(int id)
+        {
+            var result = GetById(id);
+
+            if (result == null) return ResponseStatus.NotFound;
+
+            return result;
+        }
+
+        public SingleResponse<User> Register(UserInput input)
         {
             input.Password = HashPassword(input.Password);
 
-            return _service.CreateUser(input, cancellationToken);
+            return _authService.Register(input);
         }
 
-        public SingleResponse<bool> DeleteUser(int userId, CancellationToken cancellationToken)
+        private static string HashPassword(string password, HashAlgorithm? algorithm = null)
         {
-            return _service.DeleteUser(userId, cancellationToken);
+            //if (algorithm == null)
+            //{
+            //    algorithm = SHA256.Create();
+            //}
+
+            algorithm ??= SHA256.Create();
+
+            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+            byte[] hashBytes = algorithm.ComputeHash(passwordBytes);
+
+            return Convert.ToBase64String(hashBytes);
+        }
+
+        public SingleResponse<bool> Delete(int id)
+        {
+            var result = _authService.GetById(id);
+
+            if (result == null) return ResponseStatus.NotFound;
+
+            return _authService.Delete(id);
         }
 
         public SingleResponse<bool> ChangePassword(int userId, string currentPassword, string newPassword)
         {
-            return _service.ChangePassword(userId, currentPassword, newPassword);
+            return _authService.ChangePassword(userId, currentPassword, newPassword);
         }
 
         public SingleResponse<bool> AddPassword(int userId, string password)
         {
-            return _service.AddPassword(userId, password);
+            return _authService.AddPassword(userId, password);
         }
 
         public SingleResponse<bool> ConfirmEmail(int userId)
         {
-            var user = _service.FindUserByEmail(u => u.Id == userId);
+            var user = _authService.FindUserByEmail(u => u.Id == userId);
 
             if (user == null) return ResponseStatus.NotFound;
 
@@ -68,24 +94,25 @@ namespace EducationalInstitution.Api.Services.Identity
             return ResponseStatus.Success;
         }
 
-        public SingleResponse<bool> AddRoleToUser(int userId, string role)
+        public SingleResponse<bool> AddRoleToUser(int userId, Role role)
         {
-            return _service.AddRoleToUser(userId, role);
+            return _authService.AddRoleToUser(userId, role);
         }
 
         public SingleResponse<bool> RemoveRoleFromUser(int userId, string role)
         {
-            return _service.RemoveRoleFromUser(userId, role);
+            return _authService.RemoveRoleFromUser(userId, role);
         }
 
-        public User FindUserByEmail(Expression<Func<User, bool>> predicate)
-        {
-            return _service.FindUserByEmail(predicate);
-        }
-        public SingleResponse<User> Login(string email, string password, CancellationToken cancellationToken)
+       public User FindUserByEmail(Expression<Func<User, bool>> predicate)
+       {
+            return _authService.FindUserByEmail(predicate);
+       }
+
+        public SingleResponse<User> Login(string email, string password)
         {
 
-            var user = _service.FindUserByEmail(u => u.Email == email);
+            var user = _authService.FindUserByEmail(u => u.Email == email);
 
             if (user == null)
                 return ResponseStatus.NotFound;
@@ -96,50 +123,19 @@ namespace EducationalInstitution.Api.Services.Identity
             return ResponseStatus.Success;
         }
 
+        private static bool VerifyPassword(string password, string passwordHash)
+        {
+            using SHA256 sha256 = SHA256.Create();
+
+            // Hash the provided password and compare it with the stored hash
+            string hashedPassword = HashPassword(password, sha256);
+
+            return string.Equals(hashedPassword, passwordHash);
+        }
+
         public SingleResponse<bool> Logout(int userId)
         {
             return ResponseStatus.Success;
-        }
-
-        private static string HashPassword(string password, byte[]? salt = null, bool needsOnlyHash = false)
-        {
-            if (salt == null || salt.Length != 16)
-            {
-                // generate a 128-bit salt using a secure PRNG
-                salt = new byte[128 / 8];
-                using var rng = RandomNumberGenerator.Create();
-                rng.GetBytes(salt);
-            }
-
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                 password: password,
-               salt: salt,
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 10000,
-               numBytesRequested: 256 / 8));
-
-            if (needsOnlyHash) return hashed;
-            // password will be concatenated with salt using ':'
-            return $"{hashed}:{Convert.ToBase64String(salt)}";
-        }
-
-        private static bool VerifyPassword(string hashedPasswordWithSalt, string passwordToCheck)
-        {
-            // retrieve both salt and password from 'hashedPasswordWithSalt'
-            var passwordAndHash = hashedPasswordWithSalt.Split(':');
-            if (passwordAndHash == null || passwordAndHash.Length != 2)
-                return false;
-            var salt = Convert.FromBase64String(passwordAndHash[1]);
-            if (salt == null)
-                return false;
-            // hash the given password
-            var hashOfpasswordToCheck = HashPassword(passwordToCheck, salt, true);
-            // compare both hashes
-            if (String.Compare(passwordAndHash[0], hashOfpasswordToCheck) == 0)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

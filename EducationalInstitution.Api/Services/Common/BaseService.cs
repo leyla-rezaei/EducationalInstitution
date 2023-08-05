@@ -3,7 +3,6 @@ using EducationalInstitution.Api.Repository.Contracts;
 using EducationalInstitution.Api.Responses;
 using AutoMapper;
 using EducationalInstitution.Api.Services.Common.Contracts;
-using NuGet.Protocol.Core.Types;
 
 namespace EducationalInstitution.Api.Services.Common
 {
