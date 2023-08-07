@@ -5,20 +5,19 @@ using EducationalInstitution.Api.Repository.Contracts;
 using EducationalInstitution.Api.Responses;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace EducationalInstitution.Api.Services.Identity
 {
     public class AuthService : IAuthService
     {
-        private readonly IBaseRepository<User> _repository;
         private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
-        private readonly PasswordHasher<User> _passwordHasher;
+        private readonly IBaseRepository<User> _repository;
+        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly HashAlgorithm _hashAlgorithm;
-       
+
         public AuthService(IAuthService _service, IEmailService emailService
-            , IBaseRepository<User> repository, PasswordHasher<User> passwordHasher)
+            , IBaseRepository<User> repository, IPasswordHasher<User> passwordHasher)
         {
             _authService = _service;
             _emailService = emailService;
@@ -78,10 +77,6 @@ namespace EducationalInstitution.Api.Services.Identity
 
             if (emailSentResponse.Result == null) return ResponseStatus.Failed;
 
-            var isEmailConfirmed = ConfirmEmail(userId);
-
-            if (isEmailConfirmed.Result) return ResponseStatus.Failed;
-
             return ResponseStatus.Success;
         }
 
@@ -106,19 +101,12 @@ namespace EducationalInstitution.Api.Services.Identity
 
             if (user == null) return ResponseStatus.NotFound;
 
-            if (!VerifyPassword(password, user.Password))
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
+
+            if (result == PasswordVerificationResult.Failed)
                 return ResponseStatus.Unauthorized;
 
             return ResponseStatus.Success;
-        }
-
-        private bool VerifyPassword(string password, string passwordHash)
-        {
-            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-            byte[] hashBytes = _hashAlgorithm.ComputeHash(passwordBytes);
-            string hashedPassword = Convert.ToBase64String(hashBytes);
-
-            return string.Equals(hashedPassword, passwordHash);
         }
 
         public SingleResponse<bool> Logout(int userId)
