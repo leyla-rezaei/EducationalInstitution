@@ -1,8 +1,9 @@
 ﻿using EducationalInstitution.Api.Models.Entities;
 using EducationalInstitution.Api.Models.Identity;
 using EducationalInstitution.Api.Models.Input;
+using EducationalInstitution.Api.Repository.Contracts;
 using EducationalInstitution.Api.Responses;
-using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,51 +11,45 @@ namespace EducationalInstitution.Api.Services.Identity
 {
     public class AuthService : IAuthService
     {
+        private readonly IBaseRepository<User> _repository;
         private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
-
-        public AuthService(IAuthService service, IEmailService emailService)
+        private readonly PasswordHasher<User> _passwordHasher;
+        private readonly HashAlgorithm _hashAlgorithm;
+       
+        public AuthService(IAuthService _service, IEmailService emailService
+            , IBaseRepository<User> repository, PasswordHasher<User> passwordHasher)
         {
-            _authService = service;
+            _authService = _service;
             _emailService = emailService;
+            _repository = repository;
+            _passwordHasher = passwordHasher;
+            _hashAlgorithm = SHA256.Create();
         }
 
         public SingleResponse<User> GetById(int id)
         {
-            var result = GetById(id);
+            var userResponse = GetById(id);
 
-            if (result == null) return ResponseStatus.NotFound;
+            if (userResponse.Result == null) return ResponseStatus.NotFound;
 
-            return result;
+            return userResponse;
         }
 
         public SingleResponse<User> Register(UserInput input)
         {
-            input.Password = HashPassword(input.Password);
+            var user = new User();
+            user.Password = _passwordHasher.HashPassword(user, input.Password);
 
             return _authService.Register(input);
         }
 
-        private static string HashPassword(string password, HashAlgorithm? algorithm = null)
-        {
-            //if (algorithm == null)
-            //{
-            //    algorithm = SHA256.Create();
-            //}
-
-            algorithm ??= SHA256.Create();
-
-            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-            byte[] hashBytes = algorithm.ComputeHash(passwordBytes);
-
-            return Convert.ToBase64String(hashBytes);
-        }
-
         public SingleResponse<bool> Delete(int id)
         {
-            var result = _authService.GetById(id);
+            var userResponse = _authService.GetById(id);
 
-            if (result == null) return ResponseStatus.NotFound;
+            if (userResponse.Result == null)
+                return ResponseStatus.NotFound;
 
             return _authService.Delete(id);
         }
@@ -71,20 +66,21 @@ namespace EducationalInstitution.Api.Services.Identity
 
         public SingleResponse<bool> ConfirmEmail(int userId)
         {
-            var user = _authService.FindUserByEmail(u => u.Id == userId);
+            var userResponse = GetById(userId);
 
-            if (user == null) return ResponseStatus.NotFound;
+            if (userResponse.Result == null) return ResponseStatus.NotFound;
 
-            //Random verification code generation
+            // Random verification code generation
             var confirmationCode = Guid.NewGuid().ToString();
 
-            var emailSentRespon = _emailService.SendConfirmationEmail(user.Email, confirmationCode);
+            var emailSentResponse = _emailService
+                .SendConfirmationEmail(userResponse.Result.Email, confirmationCode);
 
-            if (emailSentRespon == null) return ResponseStatus.Failed;
+            if (emailSentResponse.Result == null) return ResponseStatus.Failed;
 
             var isEmailConfirmed = ConfirmEmail(userId);
 
-            if (isEmailConfirmed == null) return ResponseStatus.Failed;
+            if (isEmailConfirmed.Result) return ResponseStatus.Failed;
 
             return ResponseStatus.Success;
         }
@@ -104,18 +100,11 @@ namespace EducationalInstitution.Api.Services.Identity
             return _authService.RemoveRoleFromUser(userId, role);
         }
 
-       public User FindUserByEmail(Expression<Func<User, bool>> predicate)
-       {
-            return _authService.FindUserByEmail(predicate);
-       }
-
-        public SingleResponse<User> Login(string email, string password)
+        public SingleResponse<bool> Login(string email, string password)
         {
+            var user = _repository.GetAll().FirstOrDefault(x => x.Email == email);
 
-            var user = _authService.FindUserByEmail(u => u.Email == email);
-
-            if (user == null)
-                return ResponseStatus.NotFound;
+            if (user == null) return ResponseStatus.NotFound;
 
             if (!VerifyPassword(password, user.Password))
                 return ResponseStatus.Unauthorized;
@@ -123,12 +112,11 @@ namespace EducationalInstitution.Api.Services.Identity
             return ResponseStatus.Success;
         }
 
-        private static bool VerifyPassword(string password, string passwordHash)
+        private bool VerifyPassword(string password, string passwordHash)
         {
-            using SHA256 sha256 = SHA256.Create();
-
-            // Hash the provided password and compare it with the stored hash
-            string hashedPassword = HashPassword(password, sha256);
+            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+            byte[] hashBytes = _hashAlgorithm.ComputeHash(passwordBytes);
+            string hashedPassword = Convert.ToBase64String(hashBytes);
 
             return string.Equals(hashedPassword, passwordHash);
         }

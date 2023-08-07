@@ -84,15 +84,32 @@ builder.Services.AddScoped<IInterestRateService, InterestRateService>();
 builder.Services.AddScoped<IBankAccountService, BankAccountService>();
 
 var app = builder.Build();
- 
 
 // Add CORS configuration
-app.UseCors(options =>
-{
-    options.WithOrigins("https://example.com")
-           .AllowAnyMethod()
-           .AllowAnyHeader();
-});
+var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? Array.Empty<string>();
+
+//builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("GlobomanticsInternal", builder =>
+//     builder.AllowAnyOrigin()
+//     .AllowAnyMethod()
+//     .AllowAnyHeader()
+//     .AllowCredentials());
+
+//     options.AddPolicy("PublicApi", builder =>
+//     builder.AllowAnyOrigin()
+//     .WithMethods("Get")
+//     .WithHeaders("Content-Type"));
+
+// });
+
+
+//app.UseCors(options =>
+//{
+//    options.WithOrigins("https://example.com")
+//           .AllowAnyMethod()
+//           .AllowAnyHeader();
+//});
 
 var dbContext = app.Services.GetRequiredService<IDbContextFactory<DataContext>>();
 DataInitializer.Initialize(dbContext.CreateDbContext());
@@ -108,5 +125,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("GlobomanticsInternal");
 
 app.Run();

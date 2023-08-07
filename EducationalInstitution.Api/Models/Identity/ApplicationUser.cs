@@ -6,7 +6,6 @@ namespace EducationalInstitution.Api.Models.Identity
     { 
         public bool EmailConfirmed { get; set; }
         public bool MobileNumberConfirmed { get; set; }
-        public string Username { get; set; }
         public string Role { get; set; } 
     }
 }

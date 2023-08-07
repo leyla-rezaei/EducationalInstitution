@@ -86,7 +86,7 @@ namespace EducationalInstitution.Api.Controllers.Identity
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public SingleResponse<User> Login(string email, string password)
+        public SingleResponse<bool> Login(string email, string password)
         {
             return _authService.Login(email, password);
         }

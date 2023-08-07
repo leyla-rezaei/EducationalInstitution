@@ -96,6 +96,5 @@ namespace EducationalInstitution.Api.Data
         public DbSet<InstitutionInformation> InstitutionInformations { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<SiteAccessControl> SiteAccessControls { get; set; }
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }

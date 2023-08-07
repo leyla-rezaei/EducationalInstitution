@@ -17,8 +17,7 @@ namespace EducationalInstitution.Api.Services.Identity
         SingleResponse<bool> ConfirmPassword(int userId, string confirmationCode);
         SingleResponse<bool> AddRoleToUser(int userId, Role role);
         SingleResponse<bool> RemoveRoleFromUser(int userId, string role);
-        SingleResponse<User> Login(string email, string password);
+        SingleResponse<bool> Login(string email, string password);
         SingleResponse<bool> Logout(int userId);
-       User FindUserByEmail(Expression<Func<User, bool>> predicate);
     }
 }

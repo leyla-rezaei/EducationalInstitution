@@ -1,6 +1,7 @@
 ﻿using EducationalInstitution.Api.Models.Common;
 using EducationalInstitution.Api.Responses;
 using EducationalInstitution.Api.Services.Common.Contracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationalInstitution.Api.Controllers.Common
@@ -20,12 +21,14 @@ namespace EducationalInstitution.Api.Controllers.Common
         }
 
         [HttpGet]
+        [EnableCors("PublicApi")]
         public ListResponse<TEntity> GetAll()
         {
             return _service.GetAll<TEntity>();
         }
 
         [HttpGet("id")]
+        [EnableCors("PublicApi")]
         public SingleResponse<TEntity> GetById(int id)
         {
             return _service.GetById(id);
