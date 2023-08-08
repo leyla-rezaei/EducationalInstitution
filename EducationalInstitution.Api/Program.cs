@@ -10,7 +10,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using EducationalInstitution.Api.Models.Identity;
 using EducationalInstitution.Api.Services.Common.Contracts;
-using EducationalInstitution.Api.Services.EntitiesService;
+using EducationalInstitution.Api.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,20 +88,20 @@ var app = builder.Build();
 // Add CORS configuration
 var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? Array.Empty<string>();
 
-//builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("GlobomanticsInternal", builder =>
-//     builder.AllowAnyOrigin()
-//     .AllowAnyMethod()
-//     .AllowAnyHeader()
-//     .AllowCredentials());
+builder.Services.AddCors(options =>
+ {
+     options.AddPolicy("GlobomanticsInternal", builder =>
+      builder.AllowAnyOrigin()
+     .AllowAnyMethod()
+      .AllowAnyHeader()
+     .AllowCredentials());
 
-//     options.AddPolicy("PublicApi", builder =>
-//     builder.AllowAnyOrigin()
-//     .WithMethods("Get")
-//     .WithHeaders("Content-Type"));
+     options.AddPolicy("PublicApi", builder =>
+      builder.AllowAnyOrigin()
+     .WithMethods("Get")
+     .WithHeaders("Content-Type"));
 
-// });
+ });
 
 
 //app.UseCors(options =>
